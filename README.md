@@ -4,8 +4,6 @@
 
 1. [Description](#description)
 1. [Setup - The basics of getting started with users](#setup)
-    * [What users affects](#what-users-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with users](#beginning-with-users)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
@@ -14,38 +12,42 @@
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+Simple modern port of the existing module mthibaut-users.
+Handles in pretty much the simplest possible way, an abstraction layer
+for creating users, and ssh_authorized_keys.
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+The module allows you to speficy users from hiera or a provided hash.
 
 ## Setup
 
-### What users affects **OPTIONAL**
+Configure your users in hiera.
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+```
+users_default:
+    dhewy:
+        ensure: present
+        uid: 5001
+        gid: users
+        groups:
+            - devops
+        comment: Dave Heward
+        managehome: true
+        shell: /bin/bash
+        ssh_authorized_keys:
+            somedevice:
+                type: 'ssh-rsa'
+                key: 'somekey'
+```
 
-If there's more that they should know about, though, this is the place to mention:
+Invoke users module in site.pp manifest
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+```
+site.pp:
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
+node default{
+    users{ 'users_default': }
+}
+```
 
 ### Beginning with users
 
@@ -55,29 +57,40 @@ basic use of the module.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+Invoke users module in site.pp manifest
+
+```
+site.pp:
+
+node default{
+    users{ 'users_default': }
+}
+```
+
+Using pre lookup, perhaps for local modding first.
+
+```
+$my_users = lookup({
+    'name' => "users_all",
+    'merge' => {
+        'strategy' => 'hash'
+    }
+})
+
+users{'my_users':
+    user_hash => $my_users
+}
+```
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+#####`user_hash`
+Pass a user hash to the module, either pre-looked up hiera or custom hash.
 
-## Limitations
+## Limitations/TODO
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
+Fairly nasty .delete('ssh_authorized_keys') assumes you have an ssh_authorized_key block for each user.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+Contributions welcome. Open a PR if you have some ideas/feature requests.
