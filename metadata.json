@@ -1,0 +1,15 @@
+{
+  "name": "davehewy-davehewyusers",
+  "version": "0.1.0",
+  "author": "davehewy",
+  "summary": "Puppet module to manage users, SSH keys, and groups.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/DaveHewy/puppet-users",
+  "project_page": "https://github.com/DaveHewy/puppet-users",
+  "issues_url": "https://github.com/DaveHewy/puppet-users/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+
