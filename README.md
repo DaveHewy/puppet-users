@@ -23,6 +23,8 @@ The module allows you to speficy users from hiera or a provided hash.
 Configure your users in hiera.
 
 ```
+common.yaml:
+
 users_default:
     dhewy:
         ensure: present

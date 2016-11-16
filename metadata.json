@@ -1,5 +1,5 @@
 {
-  "name": "davehewy-davehewyusers",
+  "name": "davehewy-users",
   "version": "0.1.0",
   "author": "davehewy",
   "summary": "Puppet module to manage users, SSH keys, and groups.",
