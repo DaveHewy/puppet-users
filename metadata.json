@@ -1,8 +1,8 @@
 {
-  "name": "davehewy-davehewyusers",
+  "name": "davehewy-users",
   "version": "0.1.0",
   "author": "davehewy",
-  "summary": "Puppet module to manage users, SSH keys, and groups.",
+  "summary": "Simple Puppet module to manage users, SSH keys, and groups. Using hiera or a passed hash.",
   "license": "Apache-2.0",
   "source": "https://github.com/DaveHewy/puppet-users",
   "project_page": "https://github.com/DaveHewy/puppet-users",
