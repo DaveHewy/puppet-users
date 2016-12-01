@@ -62,7 +62,8 @@ define users(
         'name' => "users_${name}",
         'merge' => {
             'strategy' => 'hash'
-        }
+        },
+        'default_value' => undef
     })
   }
 
